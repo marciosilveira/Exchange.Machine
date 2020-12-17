@@ -15,7 +15,7 @@ export class CashRegisterComponent implements OnInit {
   }
   
   public coins: ICoin[];
-  public exchanged: IExchanged;
+  public change: IChange;
 
   constructor(public http: HttpClient, @Inject('BASE_URL') public baseUrl: string) {
     http.get<ICoin[]>(baseUrl + 'cashRegister').subscribe(result => {
@@ -43,8 +43,8 @@ export class CashRegisterComponent implements OnInit {
   }
 
   toExchange(cents){
-    this.http.post<IExchanged>(this.baseUrl + 'cashRegister/ToExchange/' + cents.value, null).subscribe(result => {
-      this.exchanged = result;
+    this.http.post<IChange>(this.baseUrl + 'cashRegister/ToExchange/' + cents.value, null).subscribe(result => {
+      this.change = result;
       this.coins = result.coinsBox;
     }, error => console.error(error));
   }
@@ -56,7 +56,7 @@ interface ICoin {
   total: number;
 }
 
-interface IExchanged {
+interface IChange {
   coins: string;
   message: string;
   coinsBox: ICoin[];

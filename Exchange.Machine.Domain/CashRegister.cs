@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Exchange.Machine.Domain;
+﻿using Exchange.Machine.Domain.Const;
 
 namespace Exchange.Machine.Domain
 {
@@ -18,13 +15,13 @@ namespace Exchange.Machine.Domain
             _calculateChange = calculateChange;
         }
 
-        public IExchanged ToExchange(int cents)
+        public IChange ToExchange(int cents)
         {
             if (!IsValidMoney(cents))
-                return new Exchanged("Opsss... Troco informado não é válido :(", _box.Coins);
+                return new Change(nameof(AppConsts.ChangeIsNotValid), AppConsts.ChangeIsNotValid, _box.Coins);
 
             if (!EnoughMoney(cents))
-                return new Exchanged("Opsss... Moedas insuficientes no caixa :(", _box.Coins);
+                return new Change(nameof(AppConsts.InsufficientCoins), AppConsts.InsufficientCoins, _box.Coins);
 
             return _calculateChange.Calculate(cents);
         }
@@ -63,8 +60,8 @@ namespace Exchange.Machine.Domain
             }
         }
 
-        public bool EnoughMoney(int cents) => _box.Total >= cents;
+        private bool EnoughMoney(int cents) => _box.Total >= cents;
 
-        public bool IsValidMoney(int cents) => cents > 0;
+        private bool IsValidMoney(int cents) => cents > 0;
     }
 }

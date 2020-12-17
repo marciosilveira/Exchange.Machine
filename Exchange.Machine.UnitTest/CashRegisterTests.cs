@@ -1,77 +1,43 @@
 ﻿using Exchange.Machine.Domain;
+using Exchange.Machine.Domain.Const;
 using FluentAssertions;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using Moq;
 using Xunit;
 
 namespace Exchange.Machine.UnitTest
 {
     public class CashRegisterTests
     {
-        private readonly Coin[] _coins;
-
-        public CashRegisterTests()
+        [Fact]
+        public void Should_NotChangeMoney_When_CentsLessThanOrEqualZero()
         {
-            _coins = new Coin[6]
-            {
-                new Coin(CoinEnumerator.Coin1.ToByte(), 10),
-                new Coin(CoinEnumerator.Coin5.ToByte(), 5),
-                new Coin(CoinEnumerator.Coin10.ToByte(), 13),
-                new Coin(CoinEnumerator.Coin25.ToByte(), 8),
-                new Coin(CoinEnumerator.Coin50.ToByte(), 5),
-                new Coin(CoinEnumerator.Coin100.ToByte(), 3)
-            };
+            const byte coin = 5;
+            const int quantity = 7;
+
+            Mock<IBox> mockBox = new Mock<IBox>();
+            mockBox
+                .Setup(o => o.FindCoin(It.IsAny<int>()))
+                .Returns(new Coin(coin, quantity));
+
+            var cashRegister = new CashRegister(mockBox.Object, null);
+            var exchange = cashRegister.ToExchange(0);
+            exchange.MessageCode.Should().Be(nameof(AppConsts.ChangeIsNotValid));
         }
 
-        //[Fact]
-        //public void SupplyCoins_Should_By_Satisfied_By_NewCoinQuantity()
-        //{
-        //    var cashRegister = new CashRegister(_coins);
+        [Fact]
+        public void Should_NotChangeMoney_When_DoesntHaveEnoughMoney()
+        {
+            const byte coin = 5;
+            const int quantity = 1;
 
-        //    cashRegister.SupplyCoins(CoinEnumerator.Coin1.ToByte(), 113);
-        //    var coin = cashRegister.FindCoin(CoinEnumerator.Coin1.ToByte());
-        //    coin.Quantity.Should().Be(123);
-        //}
+            Mock<IBox> mockBox = new Mock<IBox>();
+            mockBox
+                .Setup(o => o.FindCoin(It.IsAny<int>()))
+                .Returns(new Coin(coin, quantity));
 
-        //[Fact]
-        //public void ExchangeMoney_Should_By_Satisfied_By_30Cents()
-        //{
-        //    int cents = 30;
-
-        //   var coins = new Coin[6]
-        //   {
-        //        new Coin(CoinEnumerator.Coin1.ToByte(), 6),
-        //        new Coin(CoinEnumerator.Coin5.ToByte(), 0),
-        //        new Coin(CoinEnumerator.Coin10.ToByte(), 3),
-        //        new Coin(CoinEnumerator.Coin25.ToByte(), 1),
-        //        new Coin(CoinEnumerator.Coin50.ToByte(), 1),
-        //        new Coin(CoinEnumerator.Coin100.ToByte(), 0)
-        //   };
-
-        //    var cashRegister = new CashRegister(coins);
-        //    var exchange = cashRegister.ToExchange(cents);
-        //    exchange.Coins.Should().BeEquivalentTo("10, 10, 10");
-        //}
-
-        //[Fact]
-        //public void ExchangeMoney_Should_By_Satisfied_By_36Cents()
-        //{
-        //    int cents = 36;
-
-        //    var coins = new Coin[6]
-        //    {
-        //        new Coin(CoinEnumerator.Coin1.ToByte(), 6),
-        //        new Coin(CoinEnumerator.Coin5.ToByte(), 0),
-        //        new Coin(CoinEnumerator.Coin10.ToByte(), 3),
-        //        new Coin(CoinEnumerator.Coin25.ToByte(), 1),
-        //        new Coin(CoinEnumerator.Coin50.ToByte(), 1),
-        //        new Coin(CoinEnumerator.Coin100.ToByte(), 0)
-        //    };
-
-        //    var cashRegister = new CashRegister(coins);
-        //    var exchange = cashRegister.ToExchange(cents);
-        //    exchange.Coins.Should().BeEquivalentTo("1, 10, 25");
-        //}
+            var cashRegister = new CashRegister(mockBox.Object, null);
+            var exchange = cashRegister.ToExchange(50);
+            exchange.MessageCode.Should().Be(nameof(AppConsts.InsufficientCoins));
+        }
     }
 }

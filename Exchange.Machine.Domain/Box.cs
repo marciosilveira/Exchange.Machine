@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 
 namespace Exchange.Machine.Domain
 {
@@ -18,6 +15,7 @@ namespace Exchange.Machine.Domain
         }
 
         public ICoin FindCoin(int value) => _coins.FirstOrDefault(x => x.Value == value);
+        public ICoin FindCoin(CoinEnumerator value) => FindCoin(value.ToByte());
 
         public static IBox New(ICoin[] coins) => new Box(coins);
     }

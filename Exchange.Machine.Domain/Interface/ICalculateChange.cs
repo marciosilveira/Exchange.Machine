@@ -7,6 +7,6 @@ namespace Exchange.Machine.Domain
     public interface ICalculateChange
     {
 
-        Exchanged Calculate(int cents);
+        Change Calculate(int cents);
     }
 }

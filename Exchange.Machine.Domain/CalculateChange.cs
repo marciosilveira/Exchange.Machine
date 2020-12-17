@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Exchange.Machine.Domain.Const;
 
 namespace Exchange.Machine.Domain
 {
@@ -18,10 +16,10 @@ namespace Exchange.Machine.Domain
             var typeCoins = _box.CoinsAvailable;
             int typeCoinsLength = typeCoins.Length;
 
-            int[] min = new int[cents + 1]; //Armazena a menor quantidade de moeda para todos os valores de 0 a n
+            int[] min = new int[cents + 1]; // Stores the least amount of coin for all values from 0 to n
             min[0] = 0;
             min[1] = 1;
-            int[] coin = new int[cents + 1]; //Armazena a moeda escolhida para todos os valor de 0 a n
+            int[] coin = new int[cents + 1]; // Stores the chosen coin for all values from 0 to n
             coin[0] = 0;
             coin[1] = 1;
 
@@ -35,7 +33,7 @@ namespace Exchange.Machine.Domain
                         if (min[i] > 1 + min[i - typeCoins[j]])
                         {
                             min[i] = 1 + min[i - typeCoins[j]];
-                            coin[i] = typeCoins[j]; // Atualiza moeda escolhida
+                            coin[i] = typeCoins[j]; // Updates chosen coin
                         }
                     }
                 }
@@ -44,19 +42,19 @@ namespace Exchange.Machine.Domain
             return coin;
         }
 
-        public Exchanged Calculate(int cents)
+        public Change Calculate(int cents)
         {
             int[] coins = FindCoinsForChange(cents);
 
             int typeCoinsLength = coins.Length - 1;
             string changeWithLessCoins = string.Empty;
-            while (typeCoinsLength > 0)                //Enquanto o valor é maior que 0
+            while (typeCoinsLength > 0) // While the value greater than 0
             {
                 int coin = coins[typeCoinsLength];
                 bool enoughCoin = _box.FindCoin(coin)?.DecreaseQuantity() ?? false;
 
                 if (!enoughCoin)
-                    return new Exchanged("Opsss... Moedas insuficientes no caixa :(", _box.Coins);
+                    return new Change(nameof(AppConsts.InsufficientCoins), AppConsts.InsufficientCoins, _box.Coins);
 
                 changeWithLessCoins += coin.Formatting();
                 typeCoinsLength -= coin;
@@ -64,7 +62,7 @@ namespace Exchange.Machine.Domain
                     changeWithLessCoins += " | ";
             }
 
-            return new Exchanged("Ebaaa! Troca realizada com sucesso :)", _box.Coins, changeWithLessCoins);
+            return new Change(nameof(AppConsts.ExchangeSuccessful), AppConsts.ExchangeSuccessful, _box.Coins, changeWithLessCoins);
         }
     }
 }

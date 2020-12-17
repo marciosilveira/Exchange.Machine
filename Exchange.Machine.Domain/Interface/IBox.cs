@@ -10,5 +10,6 @@ namespace Exchange.Machine.Domain
         byte[] CoinsAvailable { get; }
         int Total { get; }
         ICoin FindCoin(int value);
+        ICoin FindCoin(CoinEnumerator value);
     }
 }

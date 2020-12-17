@@ -5,7 +5,8 @@ This project was generated with [.NET Core version 5.0](https://dotnet.microsoft
 - Language C# 9.0
 - Class Library .NET Standard 2.1
 - Unit Test xUnit 2.4.1
-- Fluent Assertions 5.10
+- Fluent Assertions 5.10.3
+- Moq 4.15.2
 
 # Frontend
 

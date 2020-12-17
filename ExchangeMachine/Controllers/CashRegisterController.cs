@@ -68,7 +68,7 @@ namespace ChangeMachine.Controllers
         }
 
         [HttpPost("ToExchange/{cents}")]
-        public ActionResult<IExchanged> ToExchange(int cents)
+        public ActionResult<IChange> ToExchange(int cents)
         {
             try
             {
