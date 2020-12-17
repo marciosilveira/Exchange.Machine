@@ -1,4 +1,13 @@
-# ChangeMachine
+# ExchangeMachine
+
+# Backend
+This project was generated with [.NET Core version 5.0](https://dotnet.microsoft.com/download/dotnet/5.0)
+- Language C# 9.0
+- Class Library .NET Standard 2.1
+- Unit Test xUnit 2.4.1
+- Fluent Assertions 5.10
+
+# Frontend
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.0.
 
