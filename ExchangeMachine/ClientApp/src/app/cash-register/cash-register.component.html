@@ -1,0 +1,71 @@
+<body>
+    <div class="container-fluid">
+
+        <h1>Abastecimento / Sangria</h1>
+        <p>Preencher os campos abaixo com quantidade de moedas que deseja abastecer ou realizar a sangria:</p>
+
+        <div class="form-group">
+            <div class="input-group mb-3">
+                <span class="input-group-text">R$</span>
+                <span class="input-group-text">0.01</span>
+                <input #coin1 type="number" class="form-control" min="0" placeholder="Quantidade" ngModel>
+
+                <span class="input-group-text">R$</span>
+                <span class="input-group-text">0.05</span>
+                <input #coin5 type="number" class="form-control" min="0" placeholder="Quantidade">
+                
+                <span class="input-group-text">R$</span>
+                <span class="input-group-text">0.10</span>
+                <input #coin10 type="number" class="form-control" min="0" placeholder="Quantidade">
+                
+                <span class="input-group-text">R$</span>
+                <span class="input-group-text">0.25</span>                
+                <input #coin25 type="number" class="form-control" min="0" placeholder="Quantidade">
+                
+                <span class="input-group-text">R$</span>
+                <span class="input-group-text">0.50</span>
+                <input #coin50 type="number" class="form-control" min="0" placeholder="Quantidade">
+                
+                <span class="input-group-text">R$</span>
+                <span class="input-group-text">1.00</span>
+                <input #coin100 type="number" class="form-control" min="0" placeholder="Quantidade">
+            </div>
+
+            <div class="d-grid gap-2 d-md-block">
+                <button class="btn btn-primary" (click)="supply(coin1, coin5, coin10, coin25, coin50, coin100)">Abastecer</button>
+                <button class="btn btn-warning" (click)="bloodletting(coin1, coin5, coin10, coin25, coin50, coin100)">Sangria</button>
+            </div>
+        </div>
+
+        <h1>Caixa</h1>
+        <p>Moedas atualmente no caixa:</p>
+            <table class='table table-striped' aria-labelledby="tableLabel" *ngIf="coins">
+                <thead>
+                    <tr>
+                    <th>Moeda</th>
+                    <th>Quantidade</th>
+                    <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let coin of coins">
+                    <td>{{ coin.value / 100 | number: '1.2'}}</td>
+                    <td>{{ coin.quantity }}</td>
+                    <td>{{ coin.total }}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        <h1>Troco</h1>
+        <p>Informar o valor do troco desejado em centavos:</p>
+        <div class="form-group">
+            <div class="input-group mb-3">
+            <input #cents type="text" type="number" class="form-control" min="0" placeholder="Valor em centavos">
+            <button class="btn btn-success" (click)="toExchange(cents)">Troco</button>
+            </div>
+        </div>
+        <h4>Moedas para o troco:  <span class="badge badge-secondary">{{exchanged.coins / 100 | number: '1.2'}}</span></h4>
+        <h4>Mensagem:  <span class="badge badge-secondary">{{exchanged.message}}</span></h4>
+    </div>
+
+</body>

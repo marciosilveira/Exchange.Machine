@@ -1,0 +1,11 @@
+input {
+    margin-right: 12px;
+}
+
+button {
+    margin-right: 12px;
+}
+
+button.btn.btn-success {
+    width: 200px;
+}
