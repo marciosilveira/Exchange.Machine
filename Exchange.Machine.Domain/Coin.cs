@@ -44,4 +44,9 @@ namespace Exchange.Machine.Domain
             new Coin(CoinEnumerator.Coin100.ToByte(), default)
         };
     }
+
+    public static class CoinExtension
+    {
+        public static string Formatting(this int coin, double formula = 100) => (coin / formula).ToString("0.00");
+    }
 }

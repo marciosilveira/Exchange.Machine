@@ -7,14 +7,15 @@ namespace Exchange.Machine.Domain
 {
     public class Exchanged : IExchanged
     {
-        private readonly string _coins;
-        public string Coins { get { return _coins; } }
+        public string Coins { get; private set; }
         public string Message { get; private set; }
+        public ICoin[] CoinsBox { get; private set; }
 
-        public Exchanged(string coins, string message)
+        public Exchanged(string message, ICoin[] coinsBox, string coins = null)
         {
-            _coins = coins;
+            Coins = coins;
             Message = message;
+            CoinsBox = coinsBox;
         }
 
         public int[] FindCoinsForChange(int cents, byte[] typeCoinsAvailable)

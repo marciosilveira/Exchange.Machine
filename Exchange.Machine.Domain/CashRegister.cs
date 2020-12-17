@@ -21,10 +21,10 @@ namespace Exchange.Machine.Domain
         public IExchanged ToExchange(int cents)
         {
             if (!IsValidMoney(cents))
-                return new Exchanged(null, "Opsss... Troco informado não é válido :(");
+                return new Exchanged("Opsss... Troco informado não é válido :(", _box.Coins);
 
             if (!EnoughMoney(cents))
-                return new Exchanged(null, "Opsss... Moedas insuficientes no caixa :(");
+                return new Exchanged("Opsss... Moedas insuficientes no caixa :(", _box.Coins);
 
             return _calculateChange.Calculate(cents);
         }

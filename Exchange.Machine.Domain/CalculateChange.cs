@@ -56,15 +56,15 @@ namespace Exchange.Machine.Domain
                 bool enoughCoin = _box.FindCoin(coin)?.DecreaseQuantity() ?? false;
 
                 if (!enoughCoin)
-                    return new Exchanged(null, "Opsss... Moedas insuficientes no caixa :(");
+                    return new Exchanged("Opsss... Moedas insuficientes no caixa :(", _box.Coins);
 
-                changeWithLessCoins += coin.ToString();
+                changeWithLessCoins += coin.Formatting();
                 typeCoinsLength -= coin;
                 if (typeCoinsLength > 0)
-                    changeWithLessCoins += ", ";
+                    changeWithLessCoins += " | ";
             }
 
-            return new Exchanged(changeWithLessCoins, "Ebaaa! Troca realizada com sucesso :)");
+            return new Exchanged("Ebaaa! Troca realizada com sucesso :)", _box.Coins, changeWithLessCoins);
         }
     }
 }

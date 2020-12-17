@@ -45,6 +45,7 @@ export class CashRegisterComponent implements OnInit {
   toExchange(cents){
     this.http.post<IExchanged>(this.baseUrl + 'cashRegister/ToExchange/' + cents.value, null).subscribe(result => {
       this.exchanged = result;
+      this.coins = result.coinsBox;
     }, error => console.error(error));
   }
 }
@@ -58,4 +59,5 @@ interface ICoin {
 interface IExchanged {
   coins: string;
   message: string;
+  coinsBox: ICoin[];
 }
