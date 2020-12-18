@@ -1,4 +1,5 @@
-# ExchangeMachine
+# Exchange Machine
+![.NET](https://github.com/marciosilveira/Exchange.Machine/workflows/.NET/badge.svg)
 
 # Backend
 This project was generated with [.NET Core version 5.0](https://dotnet.microsoft.com/download/dotnet/5.0)
