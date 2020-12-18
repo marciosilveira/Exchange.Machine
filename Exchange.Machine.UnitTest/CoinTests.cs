@@ -1,6 +1,6 @@
 ﻿using Exchange.Machine.Domain;
 using FluentAssertions;
-using System;
+using System.Linq;
 using Xunit;
 
 namespace Exchange.Machine.UnitTest
@@ -70,6 +70,13 @@ namespace Exchange.Machine.UnitTest
             var coin = new Coin(_coinValue, _coinQuantity);
             coin.DecreaseQuantity(decreaseQuantity);
             coin.Quantity.Should().Be(_coinQuantity);
+        }
+
+        [Fact]
+        public void CreateCoinObjectWithDefaultQuantity()
+        {
+            var coin = Coin.New();
+            coin.Sum(o => o.Quantity).Should().Be(default);
         }
     }
 }
