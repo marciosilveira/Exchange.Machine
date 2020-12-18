@@ -1,4 +1,5 @@
 ﻿using Exchange.Machine.Domain;
+using Exchange.Machine.Domain.Const;
 using FluentAssertions;
 using Xunit;
 
@@ -44,6 +45,26 @@ namespace Exchange.Machine.UnitTest
             var calculateChange = new CalculateChange(box);
             var change = calculateChange.Calculate(cents);
             change.Coins.Should().Be("0,01 | 0,01 | 0,05 | 0,10 | 0,25 | 0,50");
+        }
+
+        [Fact]
+        public void Should_ReturnInsufficientCoins_When_CoinsAreMissingForTheBestChange()
+        {
+            IBox box = new Box(new Coin[6]
+            {
+                new Coin(CoinEnumerator.Coin1.ToByte(), 1),
+                new Coin(CoinEnumerator.Coin5.ToByte(), 2),
+                new Coin(CoinEnumerator.Coin10.ToByte(), 2),
+                new Coin(CoinEnumerator.Coin25.ToByte(), 0),
+                new Coin(CoinEnumerator.Coin50.ToByte(), 0),
+                new Coin(CoinEnumerator.Coin100.ToByte(), 0)
+            });
+
+            int cents = 30;
+
+            var calculateChange = new CalculateChange(box);
+            var change = calculateChange.Calculate(cents);
+            change.MessageCode.Should().Be(nameof(AppConsts.InsufficientCoins));
         }
     }
 }

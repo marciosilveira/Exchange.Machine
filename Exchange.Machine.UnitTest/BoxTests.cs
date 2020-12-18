@@ -32,5 +32,21 @@ namespace Exchange.Machine.UnitTest
                 .And
                 .Be(coins[2]);
         }
+
+        [Fact]
+        public void CreateValidBoxObjectInstance()
+        {
+            var box = Box.New(new ICoin[1] { new Coin(1, 1) });
+            box.Should().NotBeNull();
+            box.Total.Should().Be(1);
+        }
+
+        [Fact]
+        public void CreateEmptyBoxObjectInstance()
+        {
+            var box = Box.New(null);
+            box.Should().NotBeNull();
+            box.Total.Should().Be(default);
+        }
     }
 }
