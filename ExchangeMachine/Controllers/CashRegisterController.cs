@@ -1,11 +1,7 @@
 ﻿using Exchange.Machine.Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Dto = Exchange.Machine.Dto;
 
 namespace ChangeMachine.Controllers
@@ -32,7 +28,7 @@ namespace ChangeMachine.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar os dados do caixa.");
+                _logger.LogError(ex, "Error fetching data from server");
                 return Coin.New();
             }
         }
@@ -47,7 +43,7 @@ namespace ChangeMachine.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar os dados do caixa.");
+                _logger.LogError(ex, "Error fetching data from server");
                 return BadRequest();
             }
         }
@@ -62,7 +58,7 @@ namespace ChangeMachine.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar os dados do caixa.");
+                _logger.LogError(ex, "Error fetching data from server");
                 return BadRequest(_cashRegister.Box.Coins);
             }
         }
@@ -76,7 +72,7 @@ namespace ChangeMachine.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro ao buscar os dados do caixa.");
+                _logger.LogError(ex, "Error fetching data from server");
                 return BadRequest();
             }
         }
