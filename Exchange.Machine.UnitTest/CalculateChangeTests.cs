@@ -1,12 +1,20 @@
 ﻿using Exchange.Machine.Domain;
 using Exchange.Machine.Domain.Const;
 using FluentAssertions;
+using System.Globalization;
 using Xunit;
 
 namespace Exchange.Machine.UnitTest
 {
     public class CalculateChangeTests
     {
+        private readonly string _decimalSeparator;
+
+        public CalculateChangeTests()
+        {
+            _decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+        }
+
         [Fact]
         public void ExchangeMoney_Should_Be_Satisfied_By_67Cents()
         {
@@ -24,7 +32,10 @@ namespace Exchange.Machine.UnitTest
 
             var calculateChange = new CalculateChange(box);
             var change = calculateChange.Calculate(cents);
-            change.Coins.Should().Be("0,01 | 0,01 | 0,05 | 0,10 | 0,50");
+
+            change.Coins.Should()
+                .Be($"0{_decimalSeparator}01 | 0{_decimalSeparator}01 | 0{_decimalSeparator}05" +
+                $" | 0{_decimalSeparator}10 | 0{_decimalSeparator}50");
         }
 
         [Fact]
@@ -44,7 +55,8 @@ namespace Exchange.Machine.UnitTest
 
             var calculateChange = new CalculateChange(box);
             var change = calculateChange.Calculate(cents);
-            change.Coins.Should().Be("0,01 | 0,01 | 0,05 | 0,10 | 0,25 | 0,50");
+            change.Coins.Should().Be($"0{_decimalSeparator}01 | 0{_decimalSeparator}01 | 0{_decimalSeparator}05 " +
+                $"| 0{_decimalSeparator}10 | 0{_decimalSeparator}25 | 0{_decimalSeparator}50");
         }
 
         [Fact]
